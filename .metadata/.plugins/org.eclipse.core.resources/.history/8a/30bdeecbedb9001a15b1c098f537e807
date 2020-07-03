@@ -1,0 +1,14 @@
+package com.jfsfeb.airlinereservationsystem.controller;
+
+import com.jfsfeb.airlinereservationsystem.repository.AirlineSystemRepository;
+
+public class MainController {
+	
+	public static void main(String[] args) {
+		
+		AirlineSystemRepository.addData();
+		LoginController.loginController();
+	
+	}
+
+}

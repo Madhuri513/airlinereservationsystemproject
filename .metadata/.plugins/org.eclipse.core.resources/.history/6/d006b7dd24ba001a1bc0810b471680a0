@@ -1,0 +1,366 @@
+package com.jfsfeb.airlinereservationsystem.controller;
+
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+
+import com.jfsfeb.airlinereservationsystem.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystem.dto.TicketsInfo;
+import com.jfsfeb.airlinereservationsystem.dto.UserDetails;
+import com.jfsfeb.airlinereservationsystem.services.UserServices;
+import com.jfsfeb.airlinereservationsystem.services.UserServicesImple;
+import com.jfsfeb.airlinereservationsystem.validations.Validation;
+import com.jfsfeb.airlineresevationsystem.exceptions.AirlineSystemException;
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class UserController {
+
+	public static final Scanner scan = new Scanner(System.in);
+
+	public static final LoginController control = new LoginController();
+	public static final UserDetails userInfo = new UserDetails();
+	public static final FlightDetails flightInfo = new FlightDetails();
+	public static final TicketsInfo ticketInfo = new TicketsInfo();
+	public static final UserServices userServices = new UserServicesImple();
+	public static final Validation validation = new Validation();
+
+	public static int checkChoice() {
+		boolean flag = false;
+		int select = 0;
+		do {
+			try {
+				select = scan.nextInt();
+				flag = true;
+			} catch (InputMismatchException e) {
+				flag = false;
+				log.error("Invalid Choice, It Should Contain Only Digits");
+				scan.next();
+			}
+		} while (!flag);
+		return select;
+	}
+
+	public static int checkId() {
+		boolean flag = false;
+		int id = 0;
+		do {
+			try {
+				id = scan.nextInt();
+				validation.validateId(id);
+				flag = true;
+			} catch (InputMismatchException e) {
+				flag = false;
+				log.error("Id should Contain Only Digits");
+				scan.next();
+			} catch (AirlineSystemException e) {
+				flag = false;
+				log.error(e.getMessage());
+			}
+		} while (!flag);
+		return id;
+	}
+
+	public static String checkName() {
+		String name = null;
+		boolean flag = false;
+		do {
+			try {
+				name = scan.next();
+				validation.validateName(name);
+				flag = true;
+			} catch (AirlineSystemException e) {
+				flag = false;
+				log.error(e.getMessage());
+			}
+		} while (!flag);
+		return name;
+	}
+
+	public static String checkEmailId() {
+		String emailId = null;
+		boolean flag = false;
+		do {
+			try {
+				emailId = scan.next();
+				validation.validateEmail(emailId);
+				flag = true;
+			} catch (AirlineSystemException e) {
+				flag = false;
+				log.error(e.getMessage());
+			}
+		} while (!flag);
+		return emailId;
+	}
+
+	public static String checkPassword() {
+		String password = null;
+		boolean flag = false;
+		do {
+			try {
+				password = scan.next();
+				validation.validatePassword(password);
+				flag = true;
+			} catch (InputMismatchException e) {
+				flag = false;
+				log.error("Phone number should Contain Only Digits");
+				scan.next();
+			} catch (AirlineSystemException e) {
+				flag = false;
+				log.error(e.getMessage());
+
+			}
+		} while (!flag);
+		return password;
+	}
+
+	public static long checkPhoneNumber() {
+		long phoneNumber = 0;
+		boolean flag = false;
+		do {
+			try {
+				phoneNumber = scan.nextLong();
+				validation.validatePhone(phoneNumber);
+				flag = true;
+			}  catch (InputMismatchException e) {
+				flag = false;
+				log.error("Phone number should Contain Only Digits");
+				scan.next();
+			}	catch (AirlineSystemException e) {
+				flag = false;
+				log.error(e.getMessage());
+
+			}
+		} while (!flag);
+		return phoneNumber;
+	}
+
+	public static void userController() {
+
+		int id = 0;
+		String name = null;
+		String email = null;
+		String password = null;
+		long phone = 0;
+		int select = 0;
+		do {
+			try {
+			log.info("1.User registration");
+			log.info("2.User login");
+			log.info("3.Exit");
+
+			select = checkChoice();
+
+			switch (select) {
+
+			case 1:
+
+				log.info("Enter your id");
+				id = checkId();
+				userInfo.setUserId(id);
+
+				log.info("Enter your name");
+				name = checkName();
+				userInfo.setName(name);
+
+				log.info("Enter your phone number");
+				phone = checkPhoneNumber();
+				userInfo.setPhoneNumber(phone);
+
+				log.info("Enter your email");
+				email = checkEmailId();
+				userInfo.setMailId(email);
+
+				log.info("Enter your password");
+				password = checkPassword();
+				userInfo.setPassword(password);
+
+				try {
+					boolean register = userServices.userRegistration(userInfo);
+					if (register) {
+						log.info("Registered successfully");
+					}
+				} catch (AirlineSystemException e) {
+					log.error(e.getMessage());
+				}
+				break;
+
+			case 2:
+
+				log.info("Enter yor emailid");
+				email = checkEmailId();
+				userInfo.setMailId(email);
+
+				log.info("Enter your password");
+				password = checkPassword();
+				userInfo.setPassword(password);
+
+				try {
+					boolean login = userServices.userLogin(email, password);
+					if (login) {
+						log.info("Logged in successfully!!!!!");
+						int choice = 0;
+						do {
+							log.info("Which operations you want to perform?????");
+							log.info("***************************");
+							log.info("1.Search flight by name");
+							log.info("2.Search flight by source and destination");
+							log.info("3.Get flight details");
+							log.info("4.Book Flight ticket");
+							log.info("5.Cancel flight ticket");
+							log.info("6.Get all tickets details");
+							log.info("7.Logout");
+							
+							choice = scan.nextInt();
+
+							switch (choice) {
+							case 1:
+								log.info("Search fligth details by name : ");
+								String flightName = checkName();
+								try {
+									List<FlightDetails> search = userServices.searchFlightByName(flightName);
+									if (search != null) {
+										for (FlightDetails details : search) {
+											log.info(details);
+										}
+									}
+								} catch (AirlineSystemException e) {
+									log.error(e.getMessage());
+								}
+								break;
+
+							case 2:
+								log.info("Search fligth details by source and destination");
+
+								log.info("Enter source : ");
+								String source1 = checkName();
+
+								log.info("Enter destination : ");
+								String destination1 = checkName();
+
+								try {
+									List<FlightDetails> search = userServices
+											.searchFlightBySourceAndDestination(source1, destination1);
+									if (search != null) {
+										for (FlightDetails details : search) {
+											log.info(details);
+										}
+									}
+								} catch (AirlineSystemException e) {
+									log.error(e.getMessage());
+								}
+								break;
+
+							case 3:
+								log.info("Flight details are : ");
+								List<FlightDetails> records = userServices.getFlightDetails();
+								for (FlightDetails details : records) {
+									log.info(details);
+								}
+								break;
+
+							case 4:
+								log.info("Book flight ticket : ");
+								int bookingId = (int) (Math.random() * 10000);
+								if (bookingId <= 1000) {
+									bookingId = bookingId + 1000;
+								}
+								ticketInfo.setTicketId(bookingId);
+								log.info("Your booking id: " + bookingId);
+								log.info("Enter flight Id :");
+								int flightId = checkId();
+								flightInfo.setFlightId(flightId);
+
+								log.info("Enter user Id : ");
+								int userId = checkId();
+								userInfo.setUserId(userId);
+
+								log.info("Enter Number of seats : ");
+								int seats = checkChoice();
+								ticketInfo.setNoOfSeatsBooked(seats);
+
+								try {
+									TicketsInfo request = userServices.bookFligthTicket(bookingId, userInfo, flightInfo,
+											seats);
+									if (request != null) {
+										log.info("Booking is Successful!!!!");
+										log.info("Your Booking Details are : ");
+										log.info(request.getTicketId());
+										log.info(request.getUserDetails().getUserId());
+										log.info(request.getFlightDetails().getFlightName());
+										log.info(request.getNoOfSeatsBooked());
+									}
+								} catch (AirlineSystemException e) {
+									log.error(e.getMessage());
+								}
+								break;
+
+							case 5:
+								log.info("Enter your booking id to cancel the ticket : ");
+								int ticketId = checkId();
+								try {
+									boolean deleted = userServices.cancelFlightTicket(ticketId);
+									if (deleted) {
+										log.info("Cancelled your flight ticket successfully!!!!!!");
+									}
+								} catch (AirlineSystemException e) {
+									log.error(e.getMessage());
+								} catch (IndexOutOfBoundsException e) {
+									log.error(e.getMessage());
+								}
+								break;
+
+							case 6:
+								log.info("Enter your userId : ");
+								int userId2 = checkId();
+								log.info("Your ticket details are : ");
+								try {
+									List<TicketsInfo> tickets = userServices.getTicketDetails(userId2);
+									for (TicketsInfo details : tickets) {
+										log.info(details);
+									}
+									break;
+								} catch (AirlineSystemException e) {
+									log.error(e.getMessage());
+								}
+								break;
+
+							case 7:
+								log.info("Logged out successfully!!!!!!!!!!!");
+								break;
+
+							default:
+								log.info("Invalid choice , please select values from 1 to 7 only");
+								break;
+							}
+						} while (choice != 7);
+					}
+
+				} catch (AirlineSystemException e) {
+					log.error(e.getMessage());
+				}
+				break;
+
+			case 3:
+				log.info("Exit!!!");
+				break;
+
+			default:
+				log.info("Invalid choice, please select values 1,2,3 only");
+				break;
+			}
+			} catch(InputMismatchException e) {
+				log.error("Invalid Choice, Choice Contain Only Digits");
+				scan.nextLine();
+			} catch (AirlineSystemException e) {
+				log.info(e.getMessage());
+				break;
+			}
+
+		} while (select != 3);
+
+		LoginController.loginController();
+		scan.close();
+	}
+}

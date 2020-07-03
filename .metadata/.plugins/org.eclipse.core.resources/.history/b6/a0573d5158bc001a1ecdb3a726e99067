@@ -1,0 +1,5 @@
+package com.jfsfeb.airlinereservationsystemwithspringboot.beans;
+
+public class FlightResponseBean {
+
+}

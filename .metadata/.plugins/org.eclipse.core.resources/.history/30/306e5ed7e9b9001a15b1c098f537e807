@@ -1,0 +1,85 @@
+package com.jfsfeb.airlinereservationsystem.services;
+
+import java.util.List;
+
+import com.jfsfeb.airlinereservationsystem.dao.AdminDAO;
+import com.jfsfeb.airlinereservationsystem.dao.AdminDAOImple;
+import com.jfsfeb.airlinereservationsystem.dto.AdminDetails;
+import com.jfsfeb.airlinereservationsystem.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystem.dto.TicketsInfo;
+import com.jfsfeb.airlinereservationsystem.dto.UserDetails;
+import com.jfsfeb.airlinereservationsystem.factory.UserFactory;
+import com.jfsfeb.airlinereservationsystem.validations.AirlineValidations;
+import com.jfsfeb.airlinereservationsystem.validations.Validation;
+import com.jfsfeb.airlineresevationsystem.exceptions.AirlineSystemException;
+
+public class AdminServicesImple implements AdminServices {
+	
+	AdminDAO adminImple = UserFactory.getAdminDAOImpleInstance();
+	AirlineValidations validation = UserFactory.getValidationInstance();
+
+	@Override
+	public boolean adminRegistration(AdminDetails admin) {
+        if(admin != null) {
+        	return adminImple.adminRegistration(admin);
+        }
+        throw new AirlineSystemException("Enter correct details");
+	}
+
+	@Override
+	public boolean adminLogin(String emailId, String password) {
+		if(emailId!=null && password!=null ) {
+			if(validation.validateEmail(emailId)) {
+				if(validation.validatePassword(password)) {
+					return adminImple.adminLogin(emailId, password);					
+				}
+			}
+		}
+		throw new AirlineSystemException("Enter emailid and password correctly");
+
+	}
+
+	@Override
+	public boolean addFlights(FlightDetails flights) {
+		if(flights!=null) {
+			return adminImple.addFlights(flights);
+		}
+
+		throw new AirlineSystemException("Enter correct flight details");
+	}
+
+	@Override
+	public boolean deleteFlights(int id) {
+		if(id != 0) {
+			if(validation.validateId(id)) {
+				return adminImple.deleteFlights(id);				
+			}
+		}
+		throw new AirlineSystemException("Enter correct flight details");
+	}
+
+	@Override
+	public List<FlightDetails> searchFlight(int id) {
+		if(id!=0) {
+			if(validation.validateId(id)) {
+				return adminImple.searchFlight(id);				
+			}
+		}
+		throw new AirlineSystemException("Enter correct flight details");
+	}
+
+	@Override
+	public List<FlightDetails> viewFlightDetails() {
+		return adminImple.viewFlightDetails();
+	}
+
+	@Override
+	public List<UserDetails> viewAllUserDetails() {
+		return adminImple.viewAllUserDetails();
+	}
+
+	@Override
+	public List<TicketsInfo> viewTicketsInfos() {
+		return adminImple.viewTicketsInfos();
+	}
+}

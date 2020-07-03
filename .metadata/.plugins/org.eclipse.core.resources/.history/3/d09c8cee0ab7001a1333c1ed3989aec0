@@ -1,0 +1,27 @@
+package com.jfsfeb.airlinereservationsystem.dto;
+
+import java.io.Serializable;
+
+import lombok.Data;
+
+@Data
+@SuppressWarnings("serial")
+public class AdminDetails implements Serializable {
+	
+	private int id;
+	private String name;
+	private String emailId;
+	private String password;
+	
+	public AdminDetails() {
+		
+	}
+	
+	public AdminDetails(int id, String name, String emailId, String password) {
+		this.id = id;
+		this.name = name;
+		this.emailId = emailId;
+		this.password = password;
+	}
+
+}

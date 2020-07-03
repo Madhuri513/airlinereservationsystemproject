@@ -1,0 +1,56 @@
+package com.jfsfeb.airlinereservationsystem.controller;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class LoginController {
+	
+	public static final Scanner scan = new Scanner(System.in);
+
+	public static void loginController() {
+	
+		int select = 0;
+		
+		do {
+			
+			try {
+
+			log.info("********Welcome to Airline Reservation System********");
+			log.info("Press 1 if you are Admin");
+			log.info("Press 2 if you are a User");
+			log.info("Press 3 to see flight details");
+			
+			select = scan.nextInt();
+
+			switch (select) {
+
+			case 1:
+				AdminController.adminController();
+				break;
+						
+			case 2:
+				UserController.userController();
+				break;
+				
+			case 3:
+				UserController.userServices.getFlightDetails();
+				
+			default:
+				log.info("Invalid choice, please select 1,2 or 3");
+				break;
+			}
+			
+			}catch(InputMismatchException e) {
+				log.error("Invalid details, please select only numbers");
+				scan.next();
+			}
+				
+		} while(true);
+
+	}
+
+}

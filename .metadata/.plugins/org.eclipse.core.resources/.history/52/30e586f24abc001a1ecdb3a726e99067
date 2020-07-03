@@ -1,0 +1,5 @@
+package com.jfsfeb.airlinereservationsystemwithspringboot.config;
+
+public class JPAConfig {
+
+}

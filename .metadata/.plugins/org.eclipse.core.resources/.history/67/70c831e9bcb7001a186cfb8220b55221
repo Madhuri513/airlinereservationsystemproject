@@ -1,0 +1,120 @@
+package com.jfsfeb.airlinereservationsystem.services;
+
+import java.util.List;
+
+import com.jfsfeb.airlinereservationsystem.dao.AdminDAO;
+import com.jfsfeb.airlinereservationsystem.dao.AdminDAOImple;
+import com.jfsfeb.airlinereservationsystem.dto.AdminDetails;
+import com.jfsfeb.airlinereservationsystem.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystem.dto.TicketsInfo;
+import com.jfsfeb.airlinereservationsystem.dto.UserDetails;
+import com.jfsfeb.airlinereservationsystem.validations.Validation;
+import com.jfsfeb.airlineresevationsystem.exceptions.AirlineSystemException;
+
+public class AdminServicesImple implements AdminServices {
+
+	AdminDAO adminImple = new AdminDAOImple();
+	Validation validation = new Validation();
+
+	@Override
+	public boolean adminRegistration(AdminDetails admin) {
+		if (admin != null) {
+			if (validation.validateId(admin.getId())) {
+				if (validation.validateName(admin.getName())) {
+					if (validation.validateEmail(admin.getEmailId())) {
+						if (validation.validatePassword(admin.getPassword())) {
+							return adminImple.adminRegistration(admin);
+						}
+						throw new AirlineSystemException("Enter password correctly");
+					}
+					throw new AirlineSystemException("Enter correct email");
+				}
+				throw new AirlineSystemException("Enter name properly");
+			}
+			throw new AirlineSystemException("Enter id properly");
+		}
+		throw new AirlineSystemException("Enter correct details");
+	}
+
+	@Override
+	public boolean adminLogin(String emailId, String password) {
+		if (emailId != null && password != null) {
+			if (validation.validateEmail(emailId)) {
+				if (validation.validatePassword(password)) {
+					return adminImple.adminLogin(emailId, password);
+				}
+				throw new AirlineSystemException("Enter your registered emailid");
+			}
+			throw new AirlineSystemException("Enter password which you given while registering");
+		}
+		throw new AirlineSystemException("Enter emailid and password correctly");
+
+	}
+
+	@Override
+	public boolean addFlights(FlightDetails flights) {
+		if (flights != null) {
+			if (validation.validateId(flights.getFlightId())) {
+				if (validation.validateName(flights.getFlightName())) {
+					if (validation.validateName(flights.getSource())) {
+						if (validation.validateName(flights.getDestination())) {
+							if (validation.validatePrice(flights.getPrice())) {
+								if (validation.validateId(flights.getNoOfSeats())) {
+									return adminImple.addFlights(flights);
+								}
+								throw new AirlineSystemException("Enter correct number of seats");
+							}
+							throw new AirlineSystemException("Enter the price correctly");
+						}
+						throw new AirlineSystemException("Enter the destination name coorrectly");
+					}
+					throw new AirlineSystemException("Enter the source name correctly");
+				}
+				throw new AirlineSystemException("Enter the correct flight name");
+			}
+			throw new AirlineSystemException("Enter the correct id");
+		}
+		throw new AirlineSystemException("Enter correct flight details, details should not be null");
+	}
+
+	@Override
+	public boolean deleteFlights(int id) {
+		if (id != 0) {
+			if (validation.validateId(id)) {
+				return adminImple.deleteFlights(id);
+			}
+			throw new AirlineSystemException("Enter correct id");
+		}
+		throw new AirlineSystemException("Enter correct flight details");
+	}
+
+	@Override
+	public List<FlightDetails> searchFlight(int id) {
+		if (id != 0) {
+			if (validation.validateId(id)) {
+				return adminImple.searchFlight(id);
+			}
+			throw new AirlineSystemException("Enter proper id");
+		}
+		throw new AirlineSystemException("Enter correct flight details");
+	}
+
+	@Override
+	public List<FlightDetails> viewFlightDetails() {
+
+		return adminImple.viewFlightDetails();
+	}
+
+	@Override
+	public List<UserDetails> viewAllUserDetails() {
+
+		return adminImple.viewAllUserDetails();
+	}
+
+	@Override
+	public List<TicketsInfo> viewTicketsInfos() {
+
+		return adminImple.viewTicketsInfos();
+	}
+
+}

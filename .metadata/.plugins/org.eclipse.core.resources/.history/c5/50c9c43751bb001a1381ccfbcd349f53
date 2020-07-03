@@ -1,0 +1,185 @@
+package com.jfsfeb.airlinereservationsystemwithhibernate.dao;
+
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import com.jfsfeb.airlinereservationsystemwithhibernate.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystemwithhibernate.dto.TicketsInfo;
+import com.jfsfeb.airlinereservationsystemwithhibernate.dto.UserDetails;
+import com.jfsfeb.airlinereservationsystemwithhibernate.exception.AirlineSystemException;
+
+public class UserDAOImple implements UserDAO {
+
+	EntityManagerFactory entityManagerFactory = null;
+	EntityManager entityManager = null;
+	EntityTransaction transaction = null;
+
+	@Override
+	public boolean userRegistration(UserDetails user) {
+		UserDetails users = new UserDetails();
+
+		try {
+			entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence2");
+			entityManager = entityManagerFactory.createEntityManager();
+			transaction = entityManager.getTransaction();
+
+			transaction.begin();
+			users.setUserId(user.getUserId());
+			users.setName(user.getName());
+			users.setMailId(user.getMailId());
+			users.setPassword(user.getPassword());
+			users.setPhoneNumber(user.getPhoneNumber());
+			users.setRole(user.getRole());
+			entityManager.persist(users);
+			transaction.commit();
+			return true;
+
+		} catch (Exception e) {
+			e.getMessage();
+			transaction.rollback();
+		}
+		entityManager.close();
+		entityManagerFactory.close();
+		throw new AirlineSystemException("Invalid details");
+	}
+
+	@Override
+	public boolean userLogin(String emailId, String password) {
+		entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence2");
+		entityManager = entityManagerFactory.createEntityManager();
+
+		String jpql = "select e.mailId,e.password from UserDetails e where e.mailId = :mail and e.password = :password";
+		Query query = entityManager.createQuery(jpql, UserDetails.class);
+		query.setParameter("mail", emailId);
+		query.setParameter("password", password);
+		UserDetails record = (UserDetails) query.getSingleResult();
+
+		if (record != null) {
+			return true;
+		}
+		entityManager.close();
+		entityManagerFactory.close();
+		throw new AirlineSystemException("Enter correct mailid and password");
+	}
+
+	@Override
+	public List<FlightDetails> getFlightDetails() {
+		entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
+		entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "Select e from FlightDetails e";
+		Query query = entityManager.createQuery(jpql);
+
+		List<FlightDetails> recordList = query.getResultList();
+		for (int i = 0; i < recordList.size() - 1; i++) {
+			recordList.get(i);
+		}
+		if(recordList.isEmpty()) {
+			throw new AirlineSystemException("No flights present");
+		}
+		entityManager.close();
+		entityManagerFactory.close();
+		return recordList;
+	}
+
+	@Override
+	public List<FlightDetails> searchFlightByName(String name) {
+		entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
+		entityManager = entityManagerFactory.createEntityManager();
+
+		String jpql = "select e from FlightDetails e where e.flightName = :flightname";
+		TypedQuery<FlightDetails> query = entityManager.createQuery(jpql, FlightDetails.class);
+		query.setParameter("flightname", name);
+		List<FlightDetails> bean = query.getResultList();
+
+		if (bean != null) {
+			return bean;
+		}
+		throw new AirlineSystemException("Flight details not found");
+	}
+
+	@Override
+	public TicketsInfo bookFligthTicket(int bookingId, UserDetails userInfo, FlightDetails flightInfo, int seats) {
+
+//		try(Connection connection = connector.getConnection();
+//				PreparedStatement myStmt = connection.prepareStatement(connector.getQuery("ticketbooking"));) {
+//			myStmt.setInt(1, bookingId);
+//			myStmt.setInt(2, userInfo.getUserId());
+//			myStmt.setInt(3, flightInfo.getFlightId());
+//			myStmt.setInt(4, seats);
+//			result = myStmt.executeUpdate();
+//			
+//		} catch (Exception e) {
+//			e.getMessage();
+//		}
+		throw new AirlineSystemException("Invalid request");
+
+	}
+
+	@Override
+	public boolean cancelFlightTicket(int bookingId) {
+
+		entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence1");
+		entityManager = entityManagerFactory.createEntityManager();
+		transaction = entityManager.getTransaction();
+
+		try {
+			transaction.begin();
+			TicketsInfo record = entityManager.find(TicketsInfo.class, bookingId);
+			entityManager.remove(record);
+			transaction.commit();
+			return true;
+		} catch (Exception e) {
+			e.getMessage();
+			transaction.rollback();
+		}
+		entityManager.close();
+		entityManagerFactory.close();
+		throw new AirlineSystemException("Enter correct booking id");
+	}
+
+	@Override
+	public List<TicketsInfo> getTicketDetails(int userId) {
+		entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence1");
+		entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "Select e from TicketsInfo e where e.userId = :id";
+		TypedQuery<TicketsInfo> query = entityManager.createQuery(jpql, TicketsInfo.class);
+		query.setParameter("id", userId);
+		List<TicketsInfo> records = query.getResultList();
+		for (int i = 0; i < records.size() - 1; i++) {
+			records.get(i);
+		}
+		if (records.isEmpty()) {
+			throw new AirlineSystemException("No tickets with this userid...........");
+		}
+		entityManager.close();
+		entityManagerFactory.close();
+		return records;
+	}
+
+	@Override
+	public List<FlightDetails> searchFlightBySourceAndDestination(String source, String destination) {
+		entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
+		entityManager = entityManagerFactory.createEntityManager();
+
+		String jpql = "select e from FlightDetails e where e.source = :source and e.destination = :destination";
+		TypedQuery<FlightDetails> query = entityManager.createQuery(jpql, FlightDetails.class);
+		query.setParameter("source", source);
+		query.setParameter("destination", destination);
+		List<FlightDetails> bean = query.getResultList();
+		for (int i = 0; i < bean.size() - 1; i++) {
+			bean.get(i);
+		}
+		if (bean.isEmpty()) {
+			throw new AirlineSystemException("No flight found with these details");
+		}
+		entityManager.close();
+		entityManagerFactory.close();
+		return bean;
+	}
+
+}

@@ -1,0 +1,48 @@
+package com.capgemini.airlinereservationsystem.repository;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.capgemini.airlinereservationsystem.dto.AdminDetails;
+import com.capgemini.airlinereservationsystem.dto.FlightDetails;
+import com.capgemini.airlinereservationsystem.dto.TicketsInfo;
+import com.capgemini.airlinereservationsystem.dto.UserDetails;
+
+public class Repository {
+
+	public static final List<AdminDetails> admin = new ArrayList<AdminDetails>();
+	public static final List<FlightDetails> flight = new ArrayList<FlightDetails>();
+	public static final List<TicketsInfo> tickets = new ArrayList<TicketsInfo>();
+	public static final List<UserDetails> user = new ArrayList<UserDetails>();
+
+	public static void addData() {
+
+		admin.add(new AdminDetails(60, "Madhuri", "madhuri@gmail.com", "Admin@2345"));
+
+		user.add(new UserDetails(50, "Usha", "usha@gmail.com", "Usha&1234", 8231235431l));
+		user.add(new UserDetails(51, "Aruna", "aruna@gmail.com", "Aruna@1234", 9502314732l));
+
+		flight.add(new FlightDetails(10, "SpiceJet", LocalTime.of(2, 30, 00), LocalTime.of(3, 00, 00),
+				LocalDate.of(2020, Month.AUGUST, 16), LocalDate.of(2020, Month.AUGUST, 18), "Kadapa", "Hyderabad",
+				300));
+		flight.add(new FlightDetails(11, "TrueJet", LocalTime.of(6, 20, 00), LocalTime.of(6, 30, 00),
+				LocalDate.of(2020, Month.SEPTEMBER, 11), LocalDate.of(2020, Month.SEPTEMBER, 15), "Banglore", "Chennai",
+				400));
+
+		tickets.add(new TicketsInfo(20, new UserDetails(50, "Usha", "usha@gmail.com", "Usha&1234", 8231235431l),
+				new FlightDetails(10, "SpiceJet", LocalTime.of(2, 30, 00), LocalTime.of(3, 00, 00),
+						LocalDate.of(2020, Month.AUGUST, 16), LocalDate.of(2020, Month.AUGUST, 18), "Kadapa",
+						"Hyderabad", 300),
+				1));
+		tickets.add(new TicketsInfo(21, new UserDetails(51, "Aruna", "aruna@gmail.com", "Aruna@1234", 9502314732l),
+				new FlightDetails(11, "TrueJet", LocalTime.of(6, 20, 00), LocalTime.of(6, 30, 00),
+						LocalDate.of(2020, Month.SEPTEMBER, 11), LocalDate.of(2020, Month.SEPTEMBER, 15), "Banglore", "Chennai",
+						400),
+				1));
+
+	}
+
+}

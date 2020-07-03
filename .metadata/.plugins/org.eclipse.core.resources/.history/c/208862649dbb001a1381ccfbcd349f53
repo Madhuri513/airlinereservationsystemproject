@@ -1,0 +1,106 @@
+package com.jfsfeb.airlinereservationsystem.services;
+
+import java.util.List;
+
+import com.jfsfeb.airlinereservationsystem.dao.UserDAO;
+import com.jfsfeb.airlinereservationsystem.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystem.dto.TicketsInfo;
+import com.jfsfeb.airlinereservationsystem.dto.UserDetails;
+import com.jfsfeb.airlinereservationsystem.factory.UserFactory;
+import com.jfsfeb.airlinereservationsystem.validations.AirlineValidations;
+import com.jfsfeb.airlineresevationsystem.exceptions.AirlineSystemException;
+
+public class UserServicesImple implements UserServices {
+
+	UserDAO userImple = UserFactory.getUserDAOImpleInstance();
+	AirlineValidations validation = UserFactory.getValidationInstance();
+
+	@Override
+	public boolean userRegistration(UserDetails user) {
+		if (validation.validateId(user.getUserId())) {
+			if (validation.validateName(user.getName())) {
+				if (validation.validatePhone(user.getPhoneNumber())) {
+					if (validation.validateEmail(user.getMailId())) {
+						if (validation.validatePassword(user.getPassword())) {
+							return userImple.userRegistration(user);
+						}
+					}
+				}
+			}
+		}
+
+		throw new AirlineSystemException("Enter correct details");
+	}
+
+	@Override
+	public UserDetails userLogin(String emailId, String password) {
+		if (validation.validateEmail(emailId)) {
+			if (validation.validatePassword(password)) {
+				return userImple.userLogin(emailId, password);
+			}
+			throw new AirlineSystemException("Password is incorrect, please give password that entered while registering");
+		}
+		throw new AirlineSystemException("Email is incorrect, please give registered emailid");
+	}
+
+	@Override
+	public List<FlightDetails> getFlightDetails() {
+		return userImple.getFlightDetails();
+	}
+
+	@Override
+	public List<FlightDetails> searchFlightByName(String name) {
+		if (name != null) {
+			if (validation.validateName(name)) {
+				return userImple.searchFlightByName(name);
+			}
+		}
+
+		throw new AirlineSystemException("Enter correct name");
+	}
+
+	@Override
+	public List<FlightDetails> searchFlightBySourceAndDestination(String source, String destination) {
+		if (source != null && destination != null) {
+			if (validation.validateName(source)) {
+				if (validation.validateName(destination)) {
+					return userImple.searchFlightBySourceAndDestination(source, destination);
+				}
+				throw new AirlineSystemException("Source should be in alphabets only");
+			}
+		}
+		throw new AirlineSystemException("Enter correct source and destination");
+	}
+
+	@Override
+	public TicketsInfo bookFligthTicket(int bookingId, UserDetails userInfo, FlightDetails flightInfo, int seats) {
+		if ((bookingId != 0) && (userInfo != null) && (flightInfo != null) && (seats != 0)) {
+			if (validation.validateId(bookingId)) {
+				if (validation.validateId(userInfo.getUserId())) {
+					if (validation.validateId(flightInfo.getFlightId())) {
+						return userImple.bookFligthTicket(bookingId, userInfo, flightInfo, seats);
+					}
+				}
+			}
+		}
+
+		throw new AirlineSystemException("Enter correct details");
+	}
+
+	@Override
+	public boolean cancelFlightTicket(int ticketId) {
+		if (validation.validateId(ticketId)) {
+			return userImple.cancelFlightTicket(ticketId);
+		}
+		throw new AirlineSystemException("Enter id correctly");
+	}
+
+	@Override
+	public List<TicketsInfo> getTicketDetails(int userId) {
+		if (validation.validateId(userId)) {
+			return userImple.getTicketDetails(userId);
+		}
+		throw new AirlineSystemException("Enter correct id");
+	}
+
+}

@@ -1,0 +1,107 @@
+package com.jfsfeb.airlinereservationsystem.controller;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+import com.jfsfeb.airlinereservationsystem.dto.UserDetails;
+import com.jfsfeb.airlinereservationsystem.factory.UserFactory;
+import com.jfsfeb.airlinereservationsystem.services.UserServices;
+import com.jfsfeb.airlineresevationsystem.exceptions.AirlineSystemException;
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class LoginController {
+
+	public static final Scanner scan = new Scanner(System.in);
+	public static UserServices service = UserFactory.getUserServicesImpleInstance();
+	public static final UserDetails userInfo = new UserDetails();
+
+	public static void loginController() {
+	
+		int select = 0;
+		String email = null;
+		String password = null;
+		
+		do {
+			
+			try {
+
+			System.out.println("********Welcome to Airline Reservation System********");
+			System.out.println("Press 1 if you are already registered");
+			System.out.println("Press 2 if you are a new user");
+			
+			select = scan.nextInt();
+
+			switch (select) {
+
+			case 1:
+				log.info("Enter yor emailid");
+				email = scan.next();
+//			adminInfo.setEmailId(email);
+
+				log.info("Enter your password");
+				password = scan.next();
+//			adminInfo.setPassword(password);
+				
+				log.info("Enter your role");
+				String role = scan.next();
+
+				try {
+					boolean login = service.userLogin(email, password);
+					if(login) {
+						if(role.equalsIgnoreCase("Admin")) {
+							AdminController.adminController();							
+						}  else if (role.equalsIgnoreCase("User")) {
+							UserController.userController();
+						} else {
+							System.out.println("users or admins only can access data");
+						}
+					}
+				} catch(AirlineSystemException e) {
+					e.getMessage();
+				}
+				break;
+						
+			case 2:
+				System.out.println("Enter your id");
+				int id = scan.nextInt();
+				userInfo.setUserId(id);
+
+				System.out.println("Enter your name");
+				String name = scan.next();
+				userInfo.setName(name);
+
+				System.out.println("Enter your email");
+				String mail = scan.next();
+				userInfo.setMailId(mail);
+
+				System.out.println("Enter your password");
+				password = scan.next();
+				userInfo.setPassword(password);
+
+				System.out.println("Enter your role");
+				role = scan.next();
+				userInfo.setRole(role);
+
+				try {
+				boolean register = service.userRegistration(userInfo);
+
+				if (register == true) {
+					System.out.println("!!!!!Registered successfully!!!!!");
+				
+			default:
+				log.info("Invalid choice, please select 1 or 2");
+				break;
+			}
+			
+			}catch(InputMismatchException e) {
+				log.error("Invalid details, please select only numbers");
+				scan.next();
+			}
+				
+		} while(true);
+
+	}
+		}
+	}

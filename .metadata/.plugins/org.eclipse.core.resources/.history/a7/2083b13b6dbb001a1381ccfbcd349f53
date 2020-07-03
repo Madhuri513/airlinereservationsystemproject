@@ -1,0 +1,90 @@
+package com.jfsfeb.airlinereservationsystem.controller;
+
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+
+import com.jfsfeb.airlinereservationsystem.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystem.factory.UserFactory;
+import com.jfsfeb.airlinereservationsystem.services.UserServices;
+import com.jfsfeb.airlineresevationsystem.exceptions.AirlineSystemException;
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class LoginController {
+	
+	public static final Scanner scan = new Scanner(System.in);
+	public static UserServices userServices = UserFactory.getUserServicesImpleInstance();
+
+	public static void loginController() {
+	
+		int select = 0;
+		
+		do {
+			
+			try {
+
+			log.info("********Welcome to Airline Reservation System********");
+			log.info("Press 1 if you are Admin");
+			log.info("Press 2 if you are a User");
+			log.info("Press 3 to see flight details");
+			log.info("Press 4 to search flight according to source and destination");
+			
+			select = scan.nextInt();
+
+			switch (select) {
+
+			case 1:
+				AdminController.adminController();
+				break;
+						
+			case 2:
+				UserController.userController();
+				break;
+				
+			case 3:
+				log.info("Flight details are : ");
+				List<FlightDetails> records = userServices.getFlightDetails();
+				for (FlightDetails details : records) {
+					log.info(details);
+				}
+				break;
+				
+			case 4 :
+				log.info("Search fligth details by source and destination");
+
+				log.info("Enter source : ");
+				String source1 = scan.next();
+
+				log.info("Enter destination : ");
+				String destination1 = scan.next();
+
+				try {
+					List<FlightDetails> search = userServices
+							.searchFlightBySourceAndDestination(source1, destination1);
+					if (search != null) {
+						for (FlightDetails details : search) {
+							log.info(details);
+						}
+					}
+				} catch (AirlineSystemException e) {
+					log.error(e.getMessage());
+				}
+				break;
+				
+			default:
+				log.info("Invalid choice, please select 1,2 or 3");
+				break;
+			}
+			
+			}catch(InputMismatchException e) {
+				log.error("Invalid details, please select only numbers");
+				scan.next();
+			}
+				
+		} while(true);
+
+	}
+
+}

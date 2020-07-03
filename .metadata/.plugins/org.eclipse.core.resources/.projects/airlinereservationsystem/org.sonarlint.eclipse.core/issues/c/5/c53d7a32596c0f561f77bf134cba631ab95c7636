@@ -1,0 +1,16 @@
+
+‘
+java:S2293a"YReplace the type specification in this constructor call with the diamond operator ("<>").(¸¼Îâÿÿÿÿÿ8İ¤ø¹­.HßRMINORZ
+CODE_SMELL
+‘
+java:S2293o"YReplace the type specification in this constructor call with the diamond operator ("<>").(ş˜©˜şÿÿÿÿ8İ¤ø¹­.HâRMINORZ
+CODE_SMELL
+Œ
+java:S2293P"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ù•ûõ8Åå¹­.HáRMINORZ
+CODE_SMELL
+Œ
+java:S2293<"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ò£…Ö8Åå¹­.HŞRMINORZ
+CODE_SMELL
+v
+java:S1155F">Use isEmpty() to check whether the collection is empty or not.(ÌÉ“¼ıÿÿÿÿ8Åå¹­.HàRMINORZ
+CODE_SMELL

@@ -1,0 +1,37 @@
+
+m
+java:S1118":Add a private constructor to hide the implicit public one.(€÷Ôá8™¨¼­.HğRMAJORZ
+CODE_SMELL
+}
+java:S1301-"KReplace this "switch" statement by "if" statements to increase readability.(ùé 8¾¨ùÀ­.HóRMINORZ
+CODE_SMELL
+n
+java:S1141é"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8˜à—Á­.HöRMAJORZ
+CODE_SMELL
+n
+java:S1141‚"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8ÊÀÓÁ­.HùRMAJORZ
+CODE_SMELL
+‰
+java:S3776"SRefactor this method to reduce its Cognitive Complexity from 117 to the 15 allowed.(“çø‘8¾¨ùÀ­.H÷RCRITICALZ
+CODE_SMELL
+n
+java:S1141š"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8º³İÁ­.HúRMAJORZ
+CODE_SMELL
+n
+java:S1141µ"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8˜à—Á­.HòRMAJORZ
+CODE_SMELL
+q	java:S106ä"9Replace this use of System.out or System.err by a logger.(ùÍ©øÿÿÿÿ8ÊÀÓÁ­.HõRMAJORZ
+CODE_SMELL
+n
+java:S1141”"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8Æ‹¥Ó­.HóRMAJORZ
+CODE_SMELL
+V	java:S131-""Add a default case to this switch.(ùé 8¾¨ùÀ­.HñRCRITICALZ
+CODE_SMELL
+g
+java:S2440"/Remove this instantiation of "LoginController".(ğæ«…úÿÿÿÿ8¾¨ùÀ­.HøRMAJORZ
+CODE_SMELL
+€	java:S128"LEnd this switch case with an unconditional break, return or throw statement.(ÒñŠ{8Æ‹¥Ó­.HõRBLOCKERZ
+CODE_SMELL
+m
+java:S1141"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8˜à—Á­.HôRMAJORZ
+CODE_SMELL

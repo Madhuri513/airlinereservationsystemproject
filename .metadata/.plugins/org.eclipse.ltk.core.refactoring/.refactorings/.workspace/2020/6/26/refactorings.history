@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;airlinemanagementsystem&apos; to &apos;airlinereservationsystem&apos;" description="Rename resource &apos;airlinemanagementsystem&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/airlinemanagementsystem" name="airlinereservationsystem" stamp="1592734959190" updateReferences="true"/>
+</session>

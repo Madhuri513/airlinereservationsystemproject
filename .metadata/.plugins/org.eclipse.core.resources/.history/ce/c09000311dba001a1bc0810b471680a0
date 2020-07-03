@@ -1,0 +1,68 @@
+package com.jfsfeb.airlinereservationsystem.controller;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class LoginController {
+	
+	public static final Scanner scan = new Scanner(System.in);
+	
+//	public static int checkChoice() {
+//		boolean flag = false;
+//		int select = 0;
+//		do {
+//			try {
+//				select = scan.nextInt();
+//				flag = true;
+//			} catch (InputMismatchException e) {
+//				flag = false;
+//				log.error("Invalid Choice, It Should Contain Only Digits");
+//				scan.next();
+//			}
+//		} while (!flag);
+//		return select;
+//	}
+
+	public static void loginController() {
+	
+		int select = 0;
+		
+		do {
+			
+			try {
+
+			System.out.println("********Welcome to Airline Reservation System********");
+			System.out.println("Press 1 if you are Admin");
+			System.out.println("Press 2 if you are a User");
+			select = scan.nextInt();
+
+			switch (select) {
+
+			case 1:
+				AdminController.adminController();
+				break;
+						
+			case 2:
+				UserController.userController();
+				break;
+				
+			default:
+				log.info("Invalid choice, please select 1 or 2");
+				break;
+			}
+			
+			}catch(InputMismatchException e) {
+				log.error("Invalid details, please select only numbers");
+				scan.nextLine();
+			}
+				
+		} while(select != 0);
+
+		scan.close();
+	}
+
+}

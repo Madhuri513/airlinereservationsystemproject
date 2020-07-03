@@ -1,0 +1,6 @@
+INDEX VERSION 1.4+E:\Parallel Project workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+1717611438.index
+1738535013.index
+222758794.index
+573470969.index
+3681023436.index

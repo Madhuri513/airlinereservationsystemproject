@@ -1,0 +1,107 @@
+package com.jfsfeb.airlinereservationsystem.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.jfsfeb.airlinereservationsystem.dto.AdminDetails;
+import com.jfsfeb.airlinereservationsystem.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystem.dto.TicketsInfo;
+import com.jfsfeb.airlinereservationsystem.dto.UserDetails;
+import com.jfsfeb.airlinereservationsystem.repository.AirlineSystemRepository;
+import com.jfsfeb.airlineresevationsystem.exceptions.AirlineSystemException;
+
+public class AdminDAOImple implements AdminDAO {
+
+
+	@Override
+	public boolean adminLogin(String emailId, String password) {
+		for(UserDetails details : AirlineSystemRepository.user) {
+			if((details.getMailId().equalsIgnoreCase(emailId)) && (details.getPassword().equals(password))) {
+				return true;
+			}
+		}
+		throw new AirlineSystemException("Enter correct mailid and password");
+	}
+
+	@Override
+	public boolean addFlights(FlightDetails flights) {
+		for(FlightDetails details : AirlineSystemRepository.flight) {
+			if(details.getFlightId()==flights.getFlightId()) {
+				throw new AirlineSystemException("Flight id already present, give another flight id");
+			}
+		}
+		AirlineSystemRepository.flight.add(flights);
+		return true;
+	}
+
+	
+	@Override
+	public boolean deleteFlights(int id) {
+		for(FlightDetails details : AirlineSystemRepository.flight) {
+			if(details.getFlightId() == id) {
+				AirlineSystemRepository.flight.remove(details);
+				return true;
+			}
+		}
+		throw new AirlineSystemException("Flight id is not present");
+	}
+
+	@Override
+	public List<FlightDetails> searchFlight(int id) {
+		List<FlightDetails> searchFlight = new ArrayList<FlightDetails>();
+		
+		for (FlightDetails flight : AirlineSystemRepository.flight) {
+			if (flight.getFlightId() == id) {
+				searchFlight.add(flight);
+			}
+		}
+		if (searchFlight.size() == 0) {
+			throw new AirlineSystemException("Flight details not found");
+		}
+		return searchFlight;
+	}
+
+	@Override
+	public List<FlightDetails> viewFlightDetails() {
+		List<FlightDetails> allFlights = new ArrayList<FlightDetails>();
+		for(FlightDetails details : AirlineSystemRepository.flight) {
+			details.getFlightId();
+			details.getFlightName();
+			details.getNoOfSeats();
+			details.getArrivalTime();
+			details.getDepartureTime();
+			details.getSource();
+			details.getDestination();
+			allFlights.add(details);
+		}
+		return allFlights;
+	}
+
+	@Override
+	public List<UserDetails> viewAllUserDetails() {
+		List<UserDetails> allUsers = new ArrayList<UserDetails>();
+		for(UserDetails users : AirlineSystemRepository.user) {
+			users.getUserId();
+			users.getName();
+			users.getMailId();
+			users.getPhoneNumber();
+			
+			allUsers.add(users);
+		}
+		return allUsers;
+	}
+
+	@Override
+	public List<TicketsInfo> viewTicketsInfos() {
+		List<TicketsInfo> bookings = new ArrayList<TicketsInfo>();
+		for(TicketsInfo booking : AirlineSystemRepository.tickets) {
+			booking.getTicketId();
+			booking.getNoOfSeatsBooked();
+			booking.getUserDetails();
+			booking.getFlightDetails();
+						
+			bookings.add(booking);
+		}
+		return bookings;
+	}
+}

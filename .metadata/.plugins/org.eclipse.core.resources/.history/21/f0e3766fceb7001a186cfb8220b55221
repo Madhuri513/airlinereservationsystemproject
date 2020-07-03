@@ -1,0 +1,85 @@
+package com.jfsfeb.airlinereservationsystem.services;
+
+import java.util.List;
+
+import com.jfsfeb.airlinereservationsystem.dao.UserDAO;
+import com.jfsfeb.airlinereservationsystem.dao.UserDAOImple;
+import com.jfsfeb.airlinereservationsystem.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystem.dto.TicketsInfo;
+import com.jfsfeb.airlinereservationsystem.dto.UserDetails;
+import com.jfsfeb.airlineresevationsystem.exceptions.AirlineSystemException;
+
+public class UserServicesImple implements UserServices {
+	
+	UserDAO userImple = new UserDAOImple();
+
+	@Override
+	public boolean userRegistration(UserDetails user) {
+		if(user!=null) {
+			return userImple.userRegistration(user);
+		}
+
+		throw new AirlineSystemException("Enter correct details");
+	}
+
+	@Override
+	public boolean userLogin(String emailId, String password) {
+		if((emailId!=null) && (password!=null) && (password.trim() != null)) {
+			return userImple.userLogin(emailId, password);
+		}
+
+		throw new AirlineSystemException("Enter emailid and password correctly");
+	}
+
+	@Override
+	public List<FlightDetails> getFlightDetails() {
+
+		return userImple.getFlightDetails();
+	}
+
+	@Override
+	public List<FlightDetails> searchFlightByName(String name) {
+		if(name!=null) {
+			return userImple.searchFlightByName(name);
+		}
+
+		throw new AirlineSystemException("Enter correct name");
+	}
+	
+	@Override
+	public List<FlightDetails> searchFlightBySourceAndDestination(String source, String destination) {
+		if(source != null && destination != null) {
+			return userImple.searchFlightBySourceAndDestination(source, destination);
+		}
+		throw new AirlineSystemException("Enter correct source and destination");
+	}
+
+	@Override
+	public TicketsInfo bookFligthTicket(int bookingId, UserDetails userInfo, FlightDetails flightInfo, int seats) {
+		if((bookingId!=0) && (userInfo!=null) && (flightInfo!=null) && (seats != 0)) {
+			return userImple.bookFligthTicket(bookingId, userInfo, flightInfo, seats);
+		}
+
+		throw new AirlineSystemException("Enter correct details");
+	}
+
+	@Override
+	public boolean cancelFlightTicket(int ticketId) {
+		
+		if(ticketId != 0) {
+			return userImple.cancelFlightTicket(ticketId);
+		}
+		
+		throw new AirlineSystemException("Enter id correctly");
+	}
+
+	
+	@Override
+	public List<TicketsInfo> getTicketDetails(int userId) {
+		if(userId != 0) {
+			return userImple.getTicketDetails(userId);
+		}
+		throw new AirlineSystemException("Enter correct id");
+	}
+
+}

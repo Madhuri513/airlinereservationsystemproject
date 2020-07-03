@@ -1,0 +1,33 @@
+package com.jfsfeb.airlinereservationsystem.dto;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import lombok.Data;
+
+@Data
+@SuppressWarnings("serial")
+public class FlightDetails implements Serializable {
+	
+	private int flightId;
+	private String flightName;
+	private LocalTime arrivalTime;
+	private LocalDate arrivalDate;
+	private LocalTime departureTime;
+	private LocalDate departureDate;
+	private String source;
+	private String destination;
+	private int noOfSeats;
+	private double price;
+
+
+	@Override
+	public String toString() {
+		return "flightId=" + flightId + ", flightName=" + flightName + ", arrivalTime=" + arrivalTime
+				+ ", arrivalDate=" + arrivalDate + ", departureTime=" + departureTime + ", departureDate="
+				+ departureDate + ", source=" + source + ", destination=" + destination + ", noOfSeats=" + noOfSeats
+				+ ", price=" + price;
+	}
+
+}

@@ -1,0 +1,36 @@
+
+[
+java:S1125{"(Remove the literal "true" boolean value.(«¸ş•8ÿ›Û»­.HƒRMINORZ
+CODE_SMELL
+q
+java:S1226t"EIntroduce a new variable instead of reusing the parameter "userInfo".(½¤¿8ÿ›Û»­.H…RMINORZBUG
+Œ
+java:S2293&"YReplace the type specification in this constructor call with the diamond operator ("<>").(©İìğ8†öôº­.HüRMINORZ
+CODE_SMELL
+Œ
+java:S22938"YReplace the type specification in this constructor call with the diamond operator ("<>").(©İìğ8¬—‡»­.H€RMINORZ
+CODE_SMELL
+p
+java:S1155M">Use isEmpty() to check whether the collection is empty or not.(ùÙó78ææ‘»­.H„RMINORZ
+CODE_SMELL
+p
+java:S1155>">Use isEmpty() to check whether the collection is empty or not.(ùÙó78¬—‡»­.HÿRMINORZ
+CODE_SMELL
+o
+java:S1854t"<Remove this useless assignment to local variable "userInfo".(½¤¿8ÿ›Û»­.HRMAJORZ
+CODE_SMELL
+p
+java:S1155\">Use isEmpty() to check whether the collection is empty or not.(ùÙó78ææ‘»­.HşRMINORZ
+CODE_SMELL
+ˆ
+java:S3776d"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(œÖÚô8ÿ›Û»­.HıRCRITICALZ
+CODE_SMELL
+
+java:S2293“"YReplace the type specification in this constructor call with the diamond operator ("<>").(‚å¿Ú8¶İ€Ó­.HğRMINORZ
+CODE_SMELL
+Œ
+java:S2293V"YReplace the type specification in this constructor call with the diamond operator ("<>").(©İìğ8ææ‘»­.H†RMINORZ
+CODE_SMELL
+Œ
+java:S2293G"YReplace the type specification in this constructor call with the diamond operator ("<>").(©İìğ8ææ‘»­.H‚RMINORZ
+CODE_SMELL

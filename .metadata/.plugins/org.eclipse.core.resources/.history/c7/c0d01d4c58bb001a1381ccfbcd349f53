@@ -1,0 +1,171 @@
+package com.jfsfeb.airlinereservationsystemwithhibernate.controller;
+
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+
+import com.jfsfeb.airlinereservationsystemwithhibernate.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystemwithhibernate.dto.TicketsInfo;
+import com.jfsfeb.airlinereservationsystemwithhibernate.dto.UserDetails;
+import com.jfsfeb.airlinereservationsystemwithhibernate.exception.AirlineSystemException;
+import com.jfsfeb.airlinereservationsystemwithhibernate.services.UserServices;
+import com.jfsfeb.airlinereservationsystemwithhibernate.services.UserServicesImple;
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class UserController {
+
+	public static final Scanner scan = new Scanner(System.in);
+
+	public static final LoginController control = new LoginController();
+	public static final UserDetails userInfo = new UserDetails();
+	public static final FlightDetails flightInfo = new FlightDetails();
+	public static final TicketsInfo ticketInfo = new TicketsInfo();
+	public static final UserServices userServices = new UserServicesImple();
+
+	public static void userController() {
+
+		int choice = 0;
+		do {
+
+			try {
+				log.info("Which operations you want to perform?????");
+				log.info("***************************");
+				log.info("1.Search flight by name");
+				log.info("2.Search flight by source and destination");
+				log.info("3.Get flight details");
+				log.info("4.Book Flight ticket");
+				log.info("5.Cancel flight ticket");
+				log.info("6.Get all tickets details");
+				log.info("7.Logout");
+
+				choice = scan.nextInt();
+
+				switch (choice) {
+				case 1:
+					log.info("Search fligth details by name : ");
+					String flightName = scan.next();
+					try {
+						List<FlightDetails> search = userServices.searchFlightByName(flightName);
+						if (search != null) {
+							for (FlightDetails details : search) {
+								log.info(details);
+							}
+						}
+					} catch (AirlineSystemException e) {
+						log.error(e.getMessage());
+					}
+					break;
+
+				case 2:
+					log.info("Search fligth details by source and destination");
+
+					log.info("Enter source : ");
+					String source1 = scan.next();
+
+					log.info("Enter destination : ");
+					String destination1 = scan.next();
+
+					try {
+						List<FlightDetails> search = userServices.searchFlightBySourceAndDestination(source1,
+								destination1);
+						if (search != null) {
+							for (FlightDetails details : search) {
+								log.info(details);
+							}
+						}
+					} catch (AirlineSystemException e) {
+						log.error(e.getMessage());
+					}
+					break;
+
+				case 3:
+					log.info("Flight details are : ");
+					List<FlightDetails> records = userServices.getFlightDetails();
+					for (FlightDetails details : records) {
+						log.info(details);
+					}
+					break;
+
+				case 4:
+					log.info("Book flight ticket : ");
+					int bookingId = (int) (Math.random() * 10000);
+					if (bookingId <= 1000) {
+						bookingId = bookingId + 1000;
+					}
+					ticketInfo.setTicketId(bookingId);
+					log.info("Your booking id: " + bookingId);
+					log.info("Enter flight Id :");
+					int flightId = scan.nextInt();
+					flightInfo.setFlightId(flightId);
+
+					log.info("Enter user Id : ");
+					int userId = scan.nextInt();
+					userInfo.setUserId(userId);
+
+					log.info("Enter Number of seats : ");
+					int seats = scan.nextInt();
+					ticketInfo.setNoOfSeatsBooked(seats);
+
+					try {
+						TicketsInfo request = userServices.bookFligthTicket(bookingId, userInfo, flightInfo, seats);
+						if (request != null) {
+							log.info("Booking is Successful!!!!");
+							log.info("Your Booking Details are : ");
+							log.info(request.getTicketId());
+							log.info(request.getUserId());
+							log.info(request.getFlightId());
+							log.info(request.getNoOfSeatsBooked());
+						}
+					} catch (AirlineSystemException e) {
+						log.error(e.getMessage());
+					}
+					break;
+
+				case 5:
+					log.info("Enter your booking id to cancel the ticket : ");
+					int ticketId = scan.nextInt();
+					try {
+						boolean deleted = userServices.cancelFlightTicket(ticketId);
+						if (deleted) {
+							log.info("Cancelled your flight ticket successfully!!!!!!");
+						}
+					} catch (AirlineSystemException e) {
+						log.error(e.getMessage());
+					}
+					break;
+
+				case 6:
+					log.info("Enter your userId : ");
+					int userId2 = scan.nextInt();
+					log.info("Your ticket details are : ");
+					try {
+						List<TicketsInfo> tickets = userServices.getTicketDetails(userId2);
+						for (TicketsInfo details : tickets) {
+							log.info(details);
+						}
+						break;
+					} catch (AirlineSystemException e) {
+						log.error(e.getMessage());
+					}
+					break;
+
+				case 7:
+					log.info("Logged out successfully!!!!!!!!!!!");
+					break;
+
+				default:
+					log.info("Invalid choice , please select values from 1 to 7 only");
+					break;
+				}
+			} catch (InputMismatchException e) {
+				log.error("Invalid Choice, choice must be in digits only");
+				scan.nextLine();
+			} catch (AirlineSystemException e) {
+				log.error(e.getMessage());
+			}
+		} while (choice != 7);
+	}
+
+}

@@ -1,0 +1,9 @@
+package com.jfsfeb.airlinereservationsystem.factory;
+
+import com.jfsfeb.airlinereservationsystem.dao.AdminDAO;
+
+public interface UserFactory {
+	
+	public AdminDAO getAdminDAOImpleInstance();
+
+}

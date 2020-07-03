@@ -1,0 +1,27 @@
+package com.jfsfeb.airlinereservationsystemwithspringboot.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.jfsfeb.airlinereservationsystemwithspringboot.beans.FlightDetails;
+import com.jfsfeb.airlinereservationsystemwithspringboot.service.AdminServices;
+
+@RestController
+public class AdminController {
+	
+	@Autowired
+	private AdminServices adminService;
+	
+	@PostMapping(path = "/addFlight",
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	public void  addFlights(@RequestBody FlightDetails flightDetails) {
+		
+		boolean isAdded = adminService.addFlights(flightDetails);
+		
+	}
+
+}

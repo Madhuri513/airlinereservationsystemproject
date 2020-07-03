@@ -1,0 +1,5 @@
+package com.jfsfeb.airlinereservationsystem.validations;
+
+public interface AirlineValidations {
+
+}

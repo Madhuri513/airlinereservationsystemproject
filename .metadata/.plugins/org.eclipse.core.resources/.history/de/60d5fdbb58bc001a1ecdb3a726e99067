@@ -1,0 +1,13 @@
+package com.jfsfeb.airlinereservationsystemwithspringboot.beans;
+
+import java.util.List;
+
+import lombok.Data;
+
+@Data
+public class FlightResponseBean {
+	private boolean error;
+	private String message;
+	private List<FlightDetails> data;
+
+}

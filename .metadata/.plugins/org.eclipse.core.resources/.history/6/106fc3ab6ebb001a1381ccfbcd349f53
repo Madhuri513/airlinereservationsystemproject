@@ -1,0 +1,205 @@
+package com.jfsfeb.airlinereservationsystem.controller;
+
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+
+import com.jfsfeb.airlinereservationsystem.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystem.factory.UserFactory;
+import com.jfsfeb.airlinereservationsystem.services.UserServices;
+import com.jfsfeb.airlinereservationsystem.controller.AdminController;
+import com.jfsfeb.airlinereservationsystem.controller.UserController;
+import com.jfsfeb.airlinereservationsystem.dto.UserDetails;
+import com.jfsfeb.airlineresevationsystem.exceptions.AirlineSystemException;
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class LoginController {
+	
+	public static final Scanner scan = new Scanner(System.in);
+	public static UserServices service = UserFactory.getUserServicesImpleInstance();
+	public static final com.jfsfeb.airlinereservationsystem.dto.UserDetails userInfo = new UserDetails();
+	
+	public static String checkRole() {
+		String role = null;
+		boolean flag = false;
+		do {
+			role = scan.next();
+			if (role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("user")) {
+				flag = true;
+			} else {
+				System.out.println("Enter role value either user or admin");
+				flag = false;
+			}
+		} while (!flag);
+		return role.toLowerCase();
+	}
+	
+	public static void loginController() {
+	
+		int select = 0;
+		String email = null;
+		String password = null;
+		int id = 0;
+		String name = null;
+		long phone = 0;
+		String role = null;
+		
+		do {
+			
+			try {
+
+			log.info("********Welcome to Airline Reservation System********");
+			log.info("Press 1 if you are already registered");
+			log.info("Press 2 if you are a new user");
+			log.info("Press 3 to see flight details");
+			log.info("Press 4 to search flight according to source and destination");
+			
+			select = scan.nextInt();
+
+			switch (select) {
+
+			case 1:
+				log.info("Enter yor emailid");
+				email = scan.next();
+
+
+				log.info("Enter your password");
+				password = scan.next();
+
+
+				log.info("Enter your role");
+				role = checkRole();
+
+				try {
+					boolean login = service.userLogin(email, password);
+					if (login) {
+						log.info("Logged in successsfully!!!!");
+						if (role.equalsIgnoreCase("Admin")) {
+							AdminController.adminController();
+							break;
+						} else if (role.equalsIgnoreCase("User")) {
+							UserController.userController();
+							break;
+						} else {
+							log.info("users or admins only can access data");
+						}
+					}
+				} catch (AirlineSystemException e) {
+					log.error("Invalid details, please select only numbers");
+				}
+				break;
+						
+			case 2:
+				log.info("Enter your id");
+				try {
+				id = scan.nextInt();
+				}catch(InputMismatchException e) {
+					log.info("Id must be 4 digits");
+					scan.next();
+				}
+				
+				userInfo.setUserId(id);
+
+				log.info("Enter your name");
+				try {
+				name = scan.next();
+				}catch(InputMismatchException e) {
+					log.info("name must contain only alphabets");
+					scan.next();
+				}
+				userInfo.setName(name);
+
+				log.info("Enter your phone number");
+				try {
+				phone = scan.nextLong();
+				}catch(InputMismatchException e) {
+					log.info("phone number must have numbers only");
+					scan.next();
+				}
+				userInfo.setPhoneNumber(phone);
+
+				log.info("Enter your email");
+				try {
+				email = scan.next();
+				}catch(InputMismatchException e) {
+					log.info("email should be in combination of numbers and alphabets");
+					scan.next();
+				}
+				userInfo.setMailId(email);
+
+				log.info("Enter your password");
+				try {
+				password = scan.next();
+				}catch(InputMismatchException e) {
+					log.info("Password is a combination of alphabets numbers and special characters");
+					scan.next();
+				}
+				userInfo.setPassword(password);
+				
+				log.info("Enter your role");
+				role = checkRole();
+				userInfo.setRole(role);
+
+				try {
+					boolean register = service.userRegistration(userInfo);
+					if (register) {
+						log.info("Registered successfully");
+						break;
+					}
+					
+				} catch (InputMismatchException e) {
+					log.error("Invalid details, please enter correct values");
+					scan.next();
+					break;
+				} catch (AirlineSystemException e) {
+					log.error(e.getMessage());
+				}
+
+				
+			case 3:
+				log.info("Flight details are : ");
+				List<FlightDetails> records = service.getFlightDetails();
+				for (FlightDetails details : records) {
+					log.info(details);
+				}
+				break;
+				
+			case 4 :
+				log.info("Search fligth details by source and destination");
+
+				log.info("Enter source : ");
+				String source1 = scan.next();
+
+				log.info("Enter destination : ");
+				String destination1 = scan.next();
+
+				try {
+					List<FlightDetails> search = service
+							.searchFlightBySourceAndDestination(source1, destination1);
+					if (search != null) {
+						for (FlightDetails details : search) {
+							log.info(details);
+						}
+					}
+				} catch (AirlineSystemException e) {
+					log.error(e.getMessage());
+				}
+				break;
+				
+			default:
+				log.info("Invalid choice, please select 1,2 or 3");
+				break;
+			}
+			
+			}catch(InputMismatchException e) {
+				log.error("Invalid details, please select only numbers");
+				scan.next();
+			}
+				
+		} while(true);
+
+	}
+
+}

@@ -1,0 +1,24 @@
+package com.jfsfeb.airlinereservationsystemwithjdbc.dto;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
+
+import lombok.Data;
+
+@Data
+@SuppressWarnings("serial")
+public class FlightDetails implements Serializable {
+	
+	private int flightId;
+	private String flightName;
+	private Time arrivalTime;
+	private Date arrivalDate;
+	private Time departureTime;
+	private Date departureDate;
+	private String source;
+	private String destination;
+	private int seats;
+	private double price;
+
+}

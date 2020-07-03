@@ -1,0 +1,19 @@
+
+g
+java:S2440"/Remove this instantiation of "LoginController".(ðæ«…úÿÿÿÿ8­ë¸½­.HØRMAJORZ
+CODE_SMELL
+n
+java:S1141²"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8ÎÜì¿­.HÜRMAJORZ
+CODE_SMELL
+n
+java:S1141ß"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8ÎÜì¿­.HÛRMAJORZ
+CODE_SMELL
+m
+java:S1118":Add a private constructor to hide the implicit public one.(î¬’Ì8’ÿ€¾­.HÝRMAJORZ
+CODE_SMELL
+n
+java:S1141Ä"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8â­´¿­.HÙRMAJORZ
+CODE_SMELL
+ˆ
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 85 to the 15 allowed.(õŽ¯À8åå¤¿­.HÚRCRITICALZ
+CODE_SMELL

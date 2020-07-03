@@ -1,0 +1,87 @@
+package com.jfsfeb.airlinereservationsystem.repository;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.jfsfeb.airlinereservationsystem.dto.AdminDetails;
+import com.jfsfeb.airlinereservationsystem.dto.FlightDetails;
+import com.jfsfeb.airlinereservationsystem.dto.TicketsInfo;
+import com.jfsfeb.airlinereservationsystem.dto.UserDetails;
+
+public class Repository {
+
+	public static final List<AdminDetails> admin = new ArrayList<AdminDetails>();
+	public static final List<FlightDetails> flight = new ArrayList<FlightDetails>();
+	public static final List<TicketsInfo> tickets = new ArrayList<TicketsInfo>();
+	public static final List<UserDetails> user = new ArrayList<UserDetails>();
+
+	public static void addData() {
+		
+		AdminDetails adminBean = new AdminDetails();
+		adminBean.setId(60);
+		adminBean.setName("Madhuri");
+		adminBean.setEmailId("madhuri@gmail.com");
+		adminBean.setPassword("Admin@2345");
+		admin.add(adminBean);
+//		admin.add(new AdminDetails(60, "Madhuri", "madhuri@gmail.com", "Admin@2345"));
+		
+		UserDetails userBean1 = new UserDetails();
+		userBean1.setUserId(50);
+		userBean1.setName("Usha");
+		userBean1.setMailId("usha@gmail.com");
+		userBean1.setPassword("Usha&1234");
+		userBean1.setPhoneNumber(8231235431l);
+		user.add(userBean1);
+		
+		UserDetails userBean2 = new UserDetails();
+		userBean1.setUserId(51);
+		userBean1.setName("Aruna");
+		userBean1.setMailId("aruna@gmail.com");
+		userBean1.setPassword("Aruna@1234");
+		userBean1.setPhoneNumber(9502314732l);
+		user.add(userBean2);
+
+//		user.add(new UserDetails(50, "Usha", "usha@gmail.com", "Usha&1234", 8231235431l));
+//		user.add(new UserDetails(51, "Aruna", "aruna@gmail.com", "Aruna@1234", 9502314732l));
+		
+		FlightDetails flight1 = new FlightDetails();
+		flight1.setFlightId(10);
+		flight1.setFlightName("SpiceJet");
+		flight1.setArrivalTime(LocalTime.of(2, 30, 00));
+		flight1.setArrivalDate(LocalDate.of(2020, 06, 16));
+		flight1.setDepartureTime(LocalTime.of(3, 00, 00));
+		flight1.setDepartureDate(LocalDate.of(2020, 06 , 18));
+		flight1.setSource("Kadapa");
+		flight1.setDestination("Hyderabad");
+		flight.add(flight1);
+		
+		FlightDetails flight2 = new FlightDetails();
+		flight1.setFlightId(11);
+		flight1.setFlightName("TrueJet");
+		flight1.setArrivalTime(LocalTime.of(6, 20, 00));
+		flight1.setArrivalDate(LocalDate.of(2020, 07, 11));
+		flight1.setDepartureTime(LocalTime.of(6, 30, 00));
+		flight1.setDepartureDate(LocalDate.of(2020, 07, 15));
+		flight1.setSource("Banglore");
+		flight1.setDestination("Chennai");
+		flight.add(flight1);
+
+//		flight.add(new FlightDetails(10, "SpiceJet", LocalTime.of(2, 30, 00), LocalTime.of(3, 00, 00),
+//				LocalDate.of(2020, 06, 16), LocalDate.of(2020, 06 , 18), "Kadapa", "Hyderabad",
+//				300, 3000.00));
+		flight.add(new FlightDetails(11, "TrueJet", LocalTime.of(6, 20, 00), LocalTime.of(6, 30, 00),
+				LocalDate.of(2020, 07, 11), LocalDate.of(2020, 07, 15), "Banglore", "Chennai",
+				400, 3500.00));
+
+		tickets.add(new TicketsInfo(20, new UserDetails(50, "Usha", "usha@gmail.com", "Usha&1234", 8231235431l),
+				new FlightDetails(10, "SpiceJet", LocalTime.of(2, 30, 00), LocalTime.of(3, 00, 00),
+						LocalDate.of(2020, Month.AUGUST, 16), LocalDate.of(2020, Month.AUGUST, 18), "Kadapa",
+						"Hyderabad", 300, 3000.00),
+				1));
+
+	}
+
+}

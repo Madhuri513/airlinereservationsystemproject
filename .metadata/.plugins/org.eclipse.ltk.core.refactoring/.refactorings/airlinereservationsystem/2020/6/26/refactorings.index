@@ -1,0 +1,24 @@
+1592731910125	Rename package 'com.capgemini.airlinemanagementsystem.controllers'
+1592735003183	Rename package 'com.capgemini.airlinemanagementsystem'
+1592735023626	Rename package 'com.capgemini.airlinemangementsystem.dao'
+1592735063891	Rename package 'com.capgemini.airlinemangementsystem.services'
+1592735085721	Rename package 'com.capgemini.airlinemangementsystem.exceptions'
+1592735148924	Rename package 'com.capgemini.airlinemanagementsystem'
+1592738116822	Rename type 'repository'
+1592743602759	Delete element
+1592743608256	Delete element
+1592744926170	Delete elements
+1592745616427	Rename type 'AMSException'
+1592752963932	Delete element
+1592753288854	Copy file
+1592753305705	Delete element
+1592800870309	Rename type 'ARSException'
+1592880292013	Delete element
+1593101173711	Rename package 'com.capgemini.airlinereservationsystem.controller'
+1593101201222	Rename package 'com.capgemini.airlinereservationsystem.dao'
+1593101221858	Rename package 'com.capgemini.airlinereservationsystem.dto'
+1593101248466	Rename package 'com.capgemini.airlinereservationsystem.repository'
+1593101268110	Rename package 'com.capgemini.airlinereservationsystem.services'
+1593101285510	Rename package 'com.capgemini.airlinereservationsystem.validations'
+1593101303514	Rename package 'com.capgemini.airlineresevationsystem.exceptions'
+1593185834403	Rename type 'Repository'

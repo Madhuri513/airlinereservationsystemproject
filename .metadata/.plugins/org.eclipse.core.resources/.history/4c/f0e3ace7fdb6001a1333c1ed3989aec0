@@ -1,0 +1,34 @@
+package com.capgemini.airlinereservationsystem.dto;
+
+import java.io.Serializable;
+
+import lombok.Data;
+
+
+@Data
+@SuppressWarnings("serial")
+public class TicketsInfo implements Serializable {
+	
+	private int ticketId; 
+	private UserDetails userDetails;
+	private FlightDetails flightDetails;
+	private int noOfSeatsBooked;
+
+	public TicketsInfo() {
+		
+	}
+
+	public TicketsInfo(int ticketId , UserDetails userDetails, FlightDetails flightDetails, int noOfSeatsBooked) {
+		this.ticketId = ticketId;
+		this.userDetails = userDetails;
+		this.flightDetails = flightDetails;
+		this.noOfSeatsBooked = noOfSeatsBooked;
+	}
+
+	@Override
+	public String toString() {
+		return "ticketId=" + ticketId + ", userDetails=" + userDetails + ", flightDetails=" + flightDetails
+				+ ", noOfSeatsBooked=" + noOfSeatsBooked ;
+	}
+
+}
